@@ -12,7 +12,7 @@ product_database = ['burger', 'pizza', 'fries']
 product_price = [190, 390, 90]
 
 checking_variable = input('Please Enter Item Name:').lower()
-while checking_variable.isalpha() is False or checking_variable.lower() in product_database:
+while checking_variable.replace(' ','').isalpha() is False or checking_variable.lower() in product_database:
         checking_variable = input('Please Enter Valid or New Name:')
         continue
 product_database.append(checking_variable)
