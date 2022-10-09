@@ -8,14 +8,15 @@
 # Copyright:   (c) Rezaul 2022
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
+from tabulate import tabulate
 product_database = ['burger', 'pizza', 'fries']
-product_price = [190, 290,100]
+product_price = [190, 290, 100]
 
 while True:
     choice = input('Enter a Choice: \nCreate (C)\nDelete (D)\nView (V)\nInvoice (I)\nExit (E)').upper()
     if choice == 'C':
         checking_variable = input('Please Enter Item Name:').lower()
-        while checking_variable.replace(' ','').isalpha() is False or checking_variable.lower() in product_database:
+        while checking_variable.replace(' ', '').isalpha() is False or checking_variable.lower() in product_database:
             checking_variable = input('Please Enter Valid or New Name:')
             continue
         product_database.append(checking_variable)
@@ -37,20 +38,25 @@ while True:
         print(product_database, product_price)
         continue
     elif choice == 'V':
-        print('View')
+        for_pair = []
+        final_table = [['Name', 'Unit Price']]
+        for i in range(len(product_database)):
+            for_pair = [product_database[i], product_price[i]]
+            final_table.append(for_pair)
+        print(tabulate(final_table, headers='firstrow', tablefmt='fancy_grid', showindex='never'))
         continue
     elif choice == 'I':
         total = 0
         product_name, product_quantity, unit_price, line_total = [], [], [], []
         while True:
             a = input('Please Enter Product Name :').lower()
-            while a not in product_database :
+            while a not in product_database:
                 a = input("Please Enter a Valid Name")
                 continue
             product_name.append(a)
             b = input('Please Enter Quantity :')
-            while b.isdigit() is False :
-                b = input ("Pleae Enter a Valid Numnber")
+            while b.isdigit() is False:
+                b = input("Please Enter a Valid Number")
                 continue
             product_quantity.append(b)
             sequence = int(product_database.index(a))
@@ -58,23 +64,20 @@ while True:
             line_total.append(total_value)
             unit_price.append(product_price[sequence])
             decision = input("Do you wish to continue?? ( y / n ) :")
-            if decision.casefold() == 'n' :
+            if decision.casefold() == 'n':
                 break
-        print(": SL  : Product  : Quantity  : Unit price : Subtotal  :")
-        print("-"*55)
-        for e in range(0, len(product_name)):
-            print( ":",e+1," "*(2-len(str(e))),":",product_name[e].capitalize()," "*
-            (7-len(product_name[e])),":",product_quantity[e]," "*
-            (8-len(str(product_quantity[e]))),":",unit_price[e]," "*
-            (9-len(str(unit_price[e]))),":",line_total[e]," "*
-            (8-len(str(line_total[e]))),":")
-        print("-"*55)
-        for i in range(0,len(line_total)):
+        x = []
+        y = [['Product Name', 'Product Quantity', 'Unit Price', 'Subtotal']]
+        for i in range(len(product_name)):
+            x = [product_name[i], product_quantity[i], unit_price[i], line_total[i]]
+            y.append(x)
+        print(tabulate(y, headers='firstrow', tablefmt='rst'))
+        for i in range(0, len(line_total)):
             total = total + line_total[i]
-        print(" "*29," Total", " "*4,":",total)
+        print(" " * 37, " Total", " " * 10, total)
         continue
     elif choice == 'E':
-        print('Exit')
+        print('Thank You')
         break
     else:
         False
